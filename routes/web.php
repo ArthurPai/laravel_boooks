@@ -20,5 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/books', function() {
-  return view('books.index');
+  return view('books.index', ['books' => App\Book::all()]);
 })->name('books.index');
