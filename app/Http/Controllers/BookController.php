@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
@@ -26,7 +27,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return view('books.create');
     }
 
     /**
@@ -37,7 +38,22 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'cover' => 'required|url',
+        ]);
+
+        $book = new Book;
+
+        $book->title = $request->title;
+        $book->description = $request->description;
+        $book->cover = $request->cover;
+
+        $user = Auth::user();
+        $user->books()->save($book);
+
+        return redirect()->route('books.index');
     }
 
     /**
@@ -82,8 +98,10 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Book $book)
     {
-        //
+        $book->delete();
+
+        return redirect()->route('books.index');
     }
 }
