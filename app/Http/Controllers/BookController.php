@@ -18,6 +18,7 @@ class BookController extends Controller
 //        $user_id = AUTH::user()->id;
 //        $books = Book::where('user_id', '=', $user_id)->get();
         $books = AUTH::user()->books()->get();
+//        $books = Book::get();
 
         return view('books.index', ['books' => $books]);
     }
@@ -100,8 +101,9 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function destroy($id)
     {
+        $book = Auth::user()->books()->findOrFail($id);
         $book->delete();
 
         return redirect()->route('books.index');
