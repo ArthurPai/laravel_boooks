@@ -19,4 +19,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/books', 'BookController');
+
+Route::middleware('auth')->group(function () {
+  Route::resource('/books', 'BookController');
+
+  Route::resource('/articals', 'BookController');
+});
