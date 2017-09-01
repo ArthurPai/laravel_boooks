@@ -81,6 +81,8 @@ class BookController extends Controller
     public function edit($id)
     {
         $book = Auth::user()->books()->findOrFail($id);
+
+        return view('books.edit', ['book' => $book]);
     }
 
     /**
@@ -93,6 +95,19 @@ class BookController extends Controller
     public function update(Request $request, $id)
     {
         $book = Auth::user()->books()->findOrFail($id);
+
+        $this->validate($request, [
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'cover' => 'required|url',
+        ]);
+
+        $book->title = $request->title;
+        $book->description = $request->description;
+        $book->cover = $request->cover;
+        $book->save();
+
+        return redirect()->route('books.index')->with('success', '更新成功');
     }
 
     /**

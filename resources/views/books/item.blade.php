@@ -6,6 +6,7 @@
     <td>{{ $book->created_at }}</td>
     <td>{{ $book->updated_at }}</td>
     <td>
+      <a href="{{ route('books.edit', $book) }}" class="btn btn-sm btn-primary">編輯</a>
       <a href="#" class="btn btn-sm btn-danger"
          onclick="console.log('click'); event.preventDefault(); if (confirm('確定刪除?')) { document.getElementById('{{ 'destroy-form-' . $book->id }}').submit(); }">
          刪除</a>
