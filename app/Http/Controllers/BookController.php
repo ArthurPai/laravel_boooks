@@ -56,7 +56,7 @@ class BookController extends Controller
         $user = Auth::user();
         $user->books()->save($book);
 
-        return redirect()->route('books.index');
+        return redirect()->route('books.index')->with('success', '新增成功');
     }
 
     /**
@@ -67,7 +67,7 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = Book::find($id);
+        $book = Auth::user()->books()->findOrFail($id);
 
         return view('books.show', ['book' => $book]);
     }
@@ -80,7 +80,7 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        //
+        $book = Auth::user()->books()->findOrFail($id);
     }
 
     /**
@@ -92,7 +92,7 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $book = Auth::user()->books()->findOrFail($id);
     }
 
     /**
